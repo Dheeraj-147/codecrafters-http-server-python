@@ -27,7 +27,7 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
 def handle_request(conn, req,directory):
     if req["path"] == "/":
         return reply(req, 200)
-    elif req["path"] == "/files/" and req["method"] == "POST":
+    elif req["path"].startswith("/files/") and req["method"] == "POST":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
         with open(filepath,"wb") as f:
