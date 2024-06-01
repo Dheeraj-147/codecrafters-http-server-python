@@ -15,7 +15,7 @@ def reply(req, code, body="", headers={}):
 
     if "Content-Type" not in headers:
         headers["Content-Type"] = "application/octet-stream"
-    if body != "":
+    if body != b"":
         headers["Content-Length"] = str(len(body))
     for key, val in headers.items():
         b_reply += bytes(key, "utf-8") + b": " + bytes(val, "utf-8") + b"\r\n"
