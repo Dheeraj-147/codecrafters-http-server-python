@@ -13,8 +13,9 @@ def main():
     request = client_socket.recv(1024).decode("utf-8")
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
+    length=int(req)
     req1=req[4].split("\r")[0]
-    st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req1))+"\r\n\r\n"+req1
+    #st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req1))+"\r\n\r\n"+req1
     # a=req[1].split("/")
     # leng=""
     # if len(a)==2 and req[1]!="/":
@@ -26,7 +27,7 @@ def main():
     #     leng=req[1].split("echo")[1][1:]
     #     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
-    client_socket.sendall(bytes(st, "utf-8"))
+    client_socket.sendall(length.encode("utf-8"))
     
 if __name__ == "__main__":
     main()
