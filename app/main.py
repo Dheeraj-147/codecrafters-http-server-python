@@ -1,5 +1,7 @@
 #Uncomment this to pass the first stage
 import socket
+import threading
+
 def reply(req, code, body="", headers={}):
     b_reply = b""
     if code == 200:
@@ -29,14 +31,7 @@ def handle_request(conn, req):
     else:
         return reply(req, 404)
 
-def main():
-    #You can use print statements as follows for debugging, they'll be visible when running tests.
-    print("Logs from your program will appear here!")
-
-    #Uncomment this to pass the first stage
-    
-    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
-    client_socket,address=server_socket.accept() # wait for client
+def handle_client(client_socket):
     request = client_socket.recv(1024).decode("utf-8")
     request_line, headers = request.split("\r\n", 1)
     method, path, _ = request_line.split(" ")
@@ -49,6 +44,15 @@ def main():
 
     response = handle_request(client_socket, req)
     client_socket.sendall(response)
+    client_socket.close()
+
+def main():
+    server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
+    
+    while True:
+        client_socket,address=server_socket.accept() # wait for client
+        client_thread=threading.Thread(target=handle_client,args=(client_socket,))
+        client_thread.start()
     
 if __name__ == "__main__":
     main()
