@@ -11,7 +11,8 @@ def main():
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     client_socket,address=server_socket.accept() # wait for client
     request = client_socket.recv(1024).decode("utf-8")
-    request=request.split(" ")[0]
+    request_line=request.split("\n")[0]
+    request=request_line.split(" ")
     # client_socket.sendall(request)
     if request[1] == "/":
         client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
