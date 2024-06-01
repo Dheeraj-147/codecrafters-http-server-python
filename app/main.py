@@ -12,11 +12,11 @@ def main():
     client_socket,address=server_socket.accept() # wait for client
     request = client_socket.recv(1024).decode("utf-8")
     request_line=request.split("\n")[0]
-    request=request_line.split(" ")
+    req=request_line.split(" ")
+    leng=req[1].split("echo")[1][1:]
+    str="HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: "+len(leng)+"\r\n\r\n"+leng
     # client_socket.sendall(request)
-    if request[1] == "/":
-        client_socket.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
-    else:
-        client_socket.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+    client_socket.sendall(bytes(str, "utf-8"))
+    
 if __name__ == "__main__":
     main()
