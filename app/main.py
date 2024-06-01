@@ -15,8 +15,8 @@ def main():
     req=request_line.split(" ")
     a=req[1].split("/")
     leng=""
-    if len(a)==1:
-        leng=a[0]
+    if len(a)==2:
+        leng=a[1]
     else:
         leng=req[1].split("echo")[1][1:]
     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
