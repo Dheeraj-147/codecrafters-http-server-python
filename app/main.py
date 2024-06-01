@@ -1,6 +1,7 @@
 #Uncomment this to pass the first stage
 import socket
 import threading
+import os
 
 def reply(req, code, body="", headers={}):
     b_reply = b""
@@ -20,9 +21,17 @@ def reply(req, code, body="", headers={}):
     b_reply += b"\r\n" + bytes(body, "utf-8")
     return b_reply
 
-def handle_request(conn, req):
+def handle_request(conn, req,directory):
     if req["path"] == "/":
         return reply(req, 200)
+    elif req["path"].startswith("/files/"):
+        filename=req["path"][7:]
+        filepath=os.path.join(directory,filename)
+        if os.path.isfile(filepath):
+            with open(filepath,"r") as f:
+                return reply(req,200,f.read())
+        else:
+            return reply(req,404)
     elif req["path"].startswith("/echo/"):
         return reply(req, 200, req["path"][6:])
     elif req["path"] == "/user-agent":
