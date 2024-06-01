@@ -33,11 +33,11 @@ def handle_request(conn, req,directory):
         with open(filepath,"wb") as f:
             body=f.write(req["body"])
         return reply(req,201,"",content_type="application/octet-stream")
-    elif req["path"].startswith("/files/") and req["method"] == "POST":
+    elif req["path"].startswith("/files/") and req["method"] == "GET":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
-            with open(filepath,"r") as f:
+            with open(filepath,"rb") as f:
                 body=f.read()
             return reply(req,200,body,content_type="application/octet-stream")
         else:
