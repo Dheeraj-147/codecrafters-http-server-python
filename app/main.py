@@ -52,9 +52,10 @@ def handle_request(conn, req,directory):
 
 def handle_client(client_socket,directory):
     request = client_socket.recv(1024).decode("utf-8")
-    request_line, headers ,body = request.split("\r\n\r\n", 2)
+    headers ,body = request.split("\r\n\r\n", 1)
+    request_line,*header_lines= headers.split("\r\n")
     method, path, _ = request_line.split(" ")
-    headers_dict = dict(h.split(": ", 1) for h in headers.split("\r\n") if h)
+    headers_dict = dict(h.split(": ", 1) for h in header_lines if h)
 
     req = {
         "method": method,
