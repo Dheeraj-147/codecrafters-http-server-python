@@ -4,7 +4,7 @@ import threading
 import os
 import argparse
 
-def reply(req, code, body="", headers={}):
+def reply(req, code, body="", headers={},content_type="application/octet-stream"):
     b_reply = b""
     if code == 200:
         b_reply += b"HTTP/1.1 200 OK\r\n"
@@ -14,7 +14,7 @@ def reply(req, code, body="", headers={}):
         b_reply += b"HTTP/1.1 500 Internal Server Error\r\n"
 
     if "Content-Type" not in headers:
-        headers["Content-Type"] = "application/octet-stream"
+        headers["Content-Type"] = content_type
     if body != b"":
         headers["Content-Length"] = str(len(body))
     for key, val in headers.items():
@@ -38,7 +38,7 @@ def handle_request(conn, req,directory):
         return reply(req, 200, req["path"][6:])
     elif req["path"] == "/user-agent":
         ua = req["headers"]["User-Agent"]
-        return reply(req, 200, ua)
+        return reply(req, 200, ua, content_type="text/plain")
     else:
         return reply(req, 404)
 
