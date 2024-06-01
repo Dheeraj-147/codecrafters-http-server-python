@@ -18,7 +18,7 @@ def main():
     if len(a)==2 and req[1]!="/":
         leng=a[1]
         st="HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
-    elif len(req)==2 and req[1]=="/":
+    elif len(a)==2 and req[1]=="/":
         st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n"
     else:
         leng=req[1].split("echo")[1][1:]
