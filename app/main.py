@@ -30,7 +30,8 @@ def handle_request(conn, req,directory):
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
             with open(filepath,"r") as f:
-                return reply(req,200,f.read())
+                body=f.read()
+            return reply(req,200,body)
         else:
             return reply(req,404)
     elif req["path"].startswith("/echo/"):
