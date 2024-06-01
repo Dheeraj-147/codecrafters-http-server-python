@@ -15,7 +15,7 @@ def main():
     req=request_line.split(" ")
     a=req[1].split("/")
     leng=""
-    if len(a)==2:
+    if len(a)==2 and req[1]!="/":
         leng=a[1]
         st="HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     else:
