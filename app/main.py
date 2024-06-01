@@ -14,7 +14,7 @@ def main():
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
     leng=req[1].split("echo")[1][1:]
-    str="HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: "+len(leng)+"\r\n\r\n"+leng
+    str="HTTP/1.1 200 OK\r\n\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
     client_socket.sendall(bytes(str, "utf-8"))
     
