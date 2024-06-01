@@ -13,16 +13,18 @@ def main():
     request = client_socket.recv(1024).decode("utf-8")
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
-    a=req[1].split("/")
-    leng=""
-    if len(a)==2 and req[1]!="/":
-        leng=a[1]
-        st="HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
-    elif len(a)==2 and req[1]=="/":
-        st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n"
-    else:
-        leng=req[1].split("echo")[1][1:]
-        st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
+    req1=req[4].split("\r")[0]
+    st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req1))+"\r\n\r\n"+req1
+    # a=req[1].split("/")
+    # leng=""
+    # if len(a)==2 and req[1]!="/":
+    #     leng=a[1]
+    #     st="HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
+    # elif len(a)==2 and req[1]=="/":
+    #     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 0\r\n\r\n"
+    # else:
+    #     leng=req[1].split("echo")[1][1:]
+    #     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
     client_socket.sendall(bytes(st, "utf-8"))
     
