@@ -4,7 +4,7 @@ import threading
 import os
 import argparse
 
-def reply(req, code, body="", headers={},content_type="application/octet-stream"):
+def reply(req, code, body="", headers={},content_type="text/plain"):
     b_reply = b""
     if code == 200:
         b_reply += b"HTTP/1.1 200 OK\r\n"
@@ -31,14 +31,14 @@ def handle_request(conn, req,directory):
         if os.path.isfile(filepath):
             with open(filepath,"r") as f:
                 body=f.read()
-            return reply(req,200,body)
+            return reply(req,200,body,content_type="application/octet-stream")
         else:
-            return reply(req,404)
+            return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
         return reply(req, 200, req["path"][6:])
     elif req["path"] == "/user-agent":
         ua = req["headers"]["User-Agent"]
-        return reply(req, 200, ua, content_type="text/plain")
+        return reply(req, 200, ua)
     else:
         return reply(req, 404)
 
