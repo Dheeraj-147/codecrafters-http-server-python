@@ -13,8 +13,8 @@ def main():
     request = client_socket.recv(1024).decode("utf-8")
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
-    req1=req[2].split("User-Agent: ")[1].split("\r")[0]
-    st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req1))+"\r\n\r\n"+req1
+    #req1=req[2].split("User-Agent: ")[1].split("\r")[0]
+    st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req))+"\r\n\r\n"+req[2]
     # a=req[1].split("/")
     # leng=""
     # if len(a)==2 and req[1]!="/":
