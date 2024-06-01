@@ -32,7 +32,7 @@ def handle_request(conn, req,directory):
         filepath=os.path.join(directory,filename)
         with open(filepath,"wb") as f:
             body=f.write(req["body"])
-        return reply(req,201,body,content_type="application/octet-stream")
+        return reply(req,201,"",content_type="application/octet-stream")
     elif req["path"].startswith("/files/") and req["method"] == "POST":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
