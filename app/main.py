@@ -40,7 +40,7 @@ def handle_request(conn, req,directory):
     else:
         return reply(req, 404)
 
-def handle_client(client_socket):
+def handle_client(client_socket,directory):
     request = client_socket.recv(1024).decode("utf-8")
     request_line, headers = request.split("\r\n", 1)
     method, path, _ = request_line.split(" ")
@@ -51,16 +51,20 @@ def handle_client(client_socket):
         "headers": headers_dict
     }
 
-    response = handle_request(client_socket, req)
+    response = handle_request(client_socket, req,directory)
     client_socket.sendall(response)
     client_socket.close()
 
 def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--directory",default=".")
+    args=parser.parse_args()
+
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     
     while True:
         client_socket,address=server_socket.accept() # wait for client
-        client_thread=threading.Thread(target=handle_client,args=(client_socket,))
+        client_thread=threading.Thread(target=handle_client,args=(client_socket,args.directory))
         client_thread.start()
     
 if __name__ == "__main__":
