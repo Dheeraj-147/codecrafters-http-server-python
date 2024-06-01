@@ -27,7 +27,7 @@ def main():
     #     leng=req[1].split("echo")[1][1:]
     #     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
-    client_socket.sendall(length.encode("utf-8"))
+    client_socket.sendall(length)
     
 if __name__ == "__main__":
     main()
