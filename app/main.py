@@ -8,6 +8,8 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
     b_reply = b""
     if code == 200:
         b_reply += b"HTTP/1.1 200 OK\r\n"
+    elif code == 201:
+        b_reply += b"HTTP/1.1 201 Created\r\n"
     elif code == 404:
         b_reply += b"HTTP/1.1 404 Not Found\r\n"
     elif code == 500:
@@ -25,7 +27,13 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
 def handle_request(conn, req,directory):
     if req["path"] == "/":
         return reply(req, 200)
-    elif req["path"].startswith("/files/"):
+    elif req["path"] == "/files" and req["method"] == "POST":
+        filename=req["path"][7:]
+        filepath=os.path.join(directory,filename)
+        with open(filepath,"wb") as f:
+            body=f.write(req["body"])
+        return reply(req,201,body,content_type="application/octet-stream")
+    elif req["path"].startswith("/files/") and req["method"] == "POST":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
