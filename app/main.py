@@ -17,9 +17,10 @@ def main():
     leng=""
     if len(a)==2:
         leng=a[1]
+        st="HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     else:
         leng=req[1].split("echo")[1][1:]
-    st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
+        st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
     client_socket.sendall(bytes(st, "utf-8"))
     
