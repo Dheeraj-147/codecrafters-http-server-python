@@ -38,7 +38,7 @@ def handle_request(conn, req,directory):
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
             with open(filepath,"rb") as f:
-                body=f.read()
+                body=f.read().decode("utf-8")
             return reply(req,200,body,content_type="application/octet-stream")
         else:
             return reply(req,404,content_type="application/octet-stream")
