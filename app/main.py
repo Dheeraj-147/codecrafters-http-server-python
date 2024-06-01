@@ -14,7 +14,7 @@ def main():
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
     length=len(req)
-    req1=req[4].split("\r")[0]
+    #req1=req[4].split("\r")[0]
     #st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(req1))+"\r\n\r\n"+req1
     # a=req[1].split("/")
     # leng=""
