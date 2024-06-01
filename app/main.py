@@ -13,7 +13,12 @@ def main():
     request = client_socket.recv(1024).decode("utf-8")
     request_line=request.split("\n")[0]
     req=request_line.split(" ")
-    leng=req[1].split("echo")[1][1:]
+    a=req[1].split("/")
+    leng=""
+    if len(a)==1:
+        leng=a[0]
+    else:
+        leng=req[1].split("echo")[1][1:]
     st="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "+str(len(leng))+"\r\n\r\n"+leng
     # client_socket.sendall(request)
     client_socket.sendall(bytes(st, "utf-8"))
