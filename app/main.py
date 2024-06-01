@@ -14,7 +14,7 @@ def reply(req, code, body="", headers={}):
         b_reply += b"HTTP/1.1 500 Internal Server Error\r\n"
 
     if "Content-Type" not in headers:
-        headers["Content-Type"] = "text/plain"
+        headers["Content-Type"] = "application/octet-stream"
     if body != "":
         headers["Content-Length"] = str(len(body))
     for key, val in headers.items():
