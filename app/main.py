@@ -43,7 +43,12 @@ def handle_request(conn, req,directory):
         else:
             return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
-        return reply(req, 200, req["path"][6:])
+        body=req["path"][6:]
+        if "Accept-Encoding" in req["headers"] and req["headers"]["Accept-Encoding"]=="gzip":
+            headers={"Content-Encoding":"gzip"}
+        else:
+            headers={}
+        return reply(req, 200, body,headers=headers)
     elif req["path"] == "/user-agent":
         ua = req["headers"]["User-Agent"]
         return reply(req, 200, ua)
