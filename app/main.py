@@ -18,11 +18,14 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
 
     if "Content-Type" not in headers:
         headers["Content-Type"] = content_type
-    if body != b"":
-        headers["Content-Length"] = str(len(body))
+    # if body != b"":
+    #     headers["Content-Length"] = str(len(body))
     for key, val in headers.items():
         b_reply += bytes(key, "utf-8") + b": " + bytes(val, "utf-8") + b"\r\n"
-    b_reply += b"\r\n" + bytes(body, "utf-8")
+    if isinstance(body,str):
+        b_reply += b"\r\n" + bytes(body, "utf-8")
+    else:
+        b_reply+=body
     return b_reply
 
 def handle_request(conn, req,directory):
