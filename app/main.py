@@ -35,16 +35,19 @@ def handle_request(conn, req,directory):
     elif req["path"].startswith("/files/") and req["method"] == "POST":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
+        headers={}
         with open(filepath,"wb") as f:
             body=f.write(req["body"])
-        return reply(req,201,"",content_type="application/octet-stream")
+            headers["Content-Length"]=str(len(body))
+        return reply(req,201,"",content_type="application/octet-stream",headers=headers)
     elif req["path"].startswith("/files/") and req["method"] == "GET":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
             with open(filepath,"rb") as f:
                 body=f.read().decode("utf-8")
-            return reply(req,200,body,content_type="application/octet-stream")
+                headers["Content-Length"]=str(len(body))
+                return reply(req,200,body,content_type="application/octet-stream",headers=headers)
         else:
             return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
