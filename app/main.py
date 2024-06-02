@@ -44,7 +44,7 @@ def handle_request(conn, req,directory):
             return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
         body=req["path"][6:]
-        if "Accept-Encoding" in req["headers"] and req["headers"]["Accept-Encoding"]=="gzip":
+        if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
             headers={"Content-Encoding":"gzip"}
         else:
             headers={}
