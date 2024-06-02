@@ -3,6 +3,7 @@ import socket
 import threading
 import os
 import argparse
+import gzip
 
 def reply(req, code, body="", headers={},content_type="text/plain"):
     b_reply = b""
@@ -45,9 +46,10 @@ def handle_request(conn, req,directory):
     elif req["path"].startswith("/echo/"):
         body=req["path"][6:]
         if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
-            headers={"Content-Encoding":"gzip"}
+            body=gzip.compress(body.encode("utf-8"))
+            headers={"Content-Encoding":"gzip","Content-Length":str(len(body))}
         else:
-            headers={}
+            headers={"Content-Length":str(len(body))}
         return reply(req, 200, body,headers=headers)
     elif req["path"] == "/user-agent":
         ua = req["headers"]["User-Agent"]
