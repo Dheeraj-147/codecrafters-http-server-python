@@ -49,7 +49,7 @@ def handle_request(conn, req,directory):
         filepath=os.path.join(directory,filename)
         if os.path.isfile(filepath):
             with open(filepath,"rb") as f:
-                body=f.read().decode("utf-8")
+                body=f.read()
                 headers["Content-Length"]=str(len(body))
                 return reply(req,200,body,content_type="application/octet-stream",headers=headers)
         else:
