@@ -33,12 +33,12 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
     return b_reply
 
 def handle_request(conn, req,directory):
+    headers={}
     if req["path"] == "/":
         return reply(req, 200)
     elif req["path"].startswith("/files/") and req["method"] == "POST":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
-        headers={}
         with open(filepath,"wb") as f:
             body=req["body"]
             f.write(body)
@@ -47,7 +47,6 @@ def handle_request(conn, req,directory):
     elif req["path"].startswith("/files/") and req["method"] == "GET":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
-        headers={}
         if os.path.isfile(filepath):
             with open(filepath,"rb") as f:
                 body=f.read().decode("utf-8")
@@ -57,7 +56,6 @@ def handle_request(conn, req,directory):
             return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
         body=req["path"][6:]
-        headers={}
         if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
             body=gzip.compress(body.encode("utf-8"))
             headers["Content-Encoding"]="gzip"
