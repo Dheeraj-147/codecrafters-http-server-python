@@ -52,6 +52,7 @@ def handle_request(conn, req,directory):
             return reply(req,404,content_type="application/octet-stream")
     elif req["path"].startswith("/echo/"):
         body=req["path"][6:]
+        headers={}
         if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
             body=gzip.compress(body.encode("utf-8"))
             headers["Content-Encoding"]="gzip"
