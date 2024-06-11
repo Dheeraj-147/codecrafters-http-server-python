@@ -40,7 +40,8 @@ def handle_request(conn, req,directory):
         filepath=os.path.join(directory,filename)
         headers={}
         with open(filepath,"wb") as f:
-            body=f.write(req["body"])
+            body=req["body"]
+            f.write(body)
             headers["Content-Length"]=str(len(body))
         return reply(req,201,"",content_type="application/octet-stream",headers=headers)
     elif req["path"].startswith("/files/") and req["method"] == "GET":
