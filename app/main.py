@@ -20,6 +20,9 @@ def reply(req, code, body="", headers={},content_type="text/plain"):
         headers["Content-Type"] = content_type
     # if body != b"":
     #     headers["Content-Length"] = str(len(body))
+    if isinstance(body, int):
+        body = str(body)
+    headers["Content-Length"] = str(len(body))
     for key, val in headers.items():
         b_reply += bytes(key, "utf-8") + b": " + bytes(val, "utf-8") + b"\r\n"
     b_reply += b"\r\n"
