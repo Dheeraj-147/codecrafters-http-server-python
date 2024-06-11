@@ -54,9 +54,8 @@ def handle_request(conn, req,directory):
         body=req["path"][6:]
         if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
             body=gzip.compress(body.encode("utf-8"))
-            headers={"Content-Encoding":"gzip","Content-Length":str(len(body))}
-        else:
-            headers={"Content-Length":str(len(body))}
+            headers["Content-Encoding"]="gzip"
+        headers["Content-Length"]=str(len(body))
         return reply(req, 200, body,headers=headers)
     elif req["path"] == "/user-agent":
         ua = req["headers"]["User-Agent"]
