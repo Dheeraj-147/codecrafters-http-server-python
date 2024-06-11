@@ -61,9 +61,11 @@ def handle_request(conn, req,directory):
             headers["Content-Encoding"]="gzip"
         headers["Content-Length"]=str(len(body))
         return reply(req, 200, body,headers=headers)
-    elif req["path"] == "/user-agent":
-        ua = req["headers"]["User-Agent"]
-        return reply(req, 200, ua)
+    elif req["path"] == "/user-agent" and req["method"] == "GET":
+        user_agent = req["headers"].get("User-Agent", "")
+        body = user_agent.encode("utf-8")
+        headers["Content-Length"] = str(len(body))
+        return reply(req, 200, body, content_type="text/plain", headers=headers)
     else:
         return reply(req, 404)
 
