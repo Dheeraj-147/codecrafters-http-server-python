@@ -47,6 +47,7 @@ def handle_request(conn, req,directory):
     elif req["path"].startswith("/files/") and req["method"] == "GET":
         filename=req["path"][7:]
         filepath=os.path.join(directory,filename)
+        headers={}
         if os.path.isfile(filepath):
             with open(filepath,"rb") as f:
                 body=f.read().decode("utf-8")
