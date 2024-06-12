@@ -59,6 +59,8 @@ def handle_request(conn, req,directory):
         if "Accept-Encoding" in req["headers"] and "gzip" in req["headers"]["Accept-Encoding"]:
             body=gzip.compress(body.encode("utf-8"))
             headers["Content-Encoding"]="gzip"
+        else:
+            body=body.encode("utf-8")
         headers["Content-Length"]=str(len(body))
         return reply(req, 200, body,headers=headers)
     elif req["path"] == "/user-agent" and req["method"] == "GET":
